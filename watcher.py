@@ -384,18 +384,26 @@ def gmail():
         imap.login(user, password.replace(" ", ""))
         imap.select("INBOX", readonly=True)  # salt okunur: mailler okunmuş olarak işaretlenmez
         _, data = imap.uid("SEARCH", "X-GM-RAW", f'"{query}"')
-        items = []
-        for uid in (data[0].split() if data and data[0] else [])[-50:]:
+        uids = (data[0].split() if data and data[0] else [])[-50:]
+        items, no_airline, filtered = [], 0, 0
+        for uid in uids:
             _, parts = imap.uid("FETCH", uid, "(BODY.PEEK[HEADER.FIELDS (SUBJECT FROM MESSAGE-ID)])")
             raw = next((part[1] for part in parts if isinstance(part, tuple)), b"")
             headers = email.message_from_bytes(raw)
             subject, sender = decode_mime(headers.get("Subject")), decode_mime(headers.get("From")).lower()
             airline = next((name for key, name in MAIL_SENDERS.items() if key in sender), None)
-            if not airline or not subject or MAIL_SKIP.search(subject):  # konusuz mailler de bülten değil
+            if not airline:
+                no_airline += 1
+                continue
+            if not subject or MAIL_SKIP.search(subject):  # konusuz mailler de bülten değil
+                filtered += 1
                 continue
             msgid = (headers.get("Message-ID") or uid.decode()).strip()
             link = "https://mail.google.com/mail/u/0/#search/" + urllib.parse.quote(f"rfc822msgid:{msgid.strip('<>')}")
             items.append(Item(f"mail:{sha(msgid)}", airline, subject, "", link, kind="mail"))
+        # Kayıtlar herkese açık olduğu için mail konuları yazılmaz, sadece sayılar
+        print(f"[Gmail] arama {len(uids)} mail buldu: {no_airline} gönderen eşleşmedi, {filtered} konu filtresine takıldı, "
+              f"kalan: {', '.join(it.airline for it in items) or '-'}")
         return items
     finally:
         try:
