@@ -59,7 +59,7 @@ MAIL_SENDERS = {
 # Konusu bunlardan birini içeren mailler (rezervasyon, check-in, hesap işlemleri vb.) kampanya sayılmaz
 MAIL_SKIP = re.compile(
     r"booking|reservation|confirm|check-?in|boarding|receipt|invoice|itinerary|password|verif|"
-    r"account|registration|security|log ?in|sign ?in|hesabınız|"
+    r"account|registration|security|log ?in|sign ?in|hesabınız|bilet bilgi|elektronik bilet|"
     r"e-?ticket|refund|rezervasyon|onay|fatura|biniş|şifre|iade|varaus|kuitti|vahvist|lähtöselvitys",
     re.I,
 )
@@ -391,11 +391,11 @@ def gmail():
             headers = email.message_from_bytes(raw)
             subject, sender = decode_mime(headers.get("Subject")), decode_mime(headers.get("From")).lower()
             airline = next((name for key, name in MAIL_SENDERS.items() if key in sender), None)
-            if not airline or MAIL_SKIP.search(subject):
+            if not airline or not subject or MAIL_SKIP.search(subject):  # konusuz mailler de bülten değil
                 continue
             msgid = (headers.get("Message-ID") or uid.decode()).strip()
             link = "https://mail.google.com/mail/u/0/#search/" + urllib.parse.quote(f"rfc822msgid:{msgid.strip('<>')}")
-            items.append(Item(f"mail:{sha(msgid)}", airline, subject or "(konusuz)", "", link, kind="mail"))
+            items.append(Item(f"mail:{sha(msgid)}", airline, subject, "", link, kind="mail"))
         return items
     finally:
         try:
