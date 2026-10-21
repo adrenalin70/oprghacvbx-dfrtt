@@ -56,9 +56,10 @@ MAIL_SENDERS = {
     "airbaltic": "airBaltic",
     "flypgs": "Pegasus",
 }
-# Konusu bunlardan birini içeren mailler (rezervasyon, check-in vb.) kampanya sayılmaz
+# Konusu bunlardan birini içeren mailler (rezervasyon, check-in, hesap işlemleri vb.) kampanya sayılmaz
 MAIL_SKIP = re.compile(
     r"booking|reservation|confirm|check-?in|boarding|receipt|invoice|itinerary|password|verif|"
+    r"account|registration|security|log ?in|sign ?in|hesabınız|"
     r"e-?ticket|refund|rezervasyon|onay|fatura|biniş|şifre|iade|varaus|kuitti|vahvist|lähtöselvitys",
     re.I,
 )
