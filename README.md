@@ -1,6 +1,6 @@
 # Kampanya Avcısı ✈️
 
-Finnair, SAS, Ryanair, airBaltic ve Pegasus'un kampanyalarını 15 dakikada bir kontrol eder.
+Finnair, SAS, Ryanair, airBaltic, Pegasus, THY ve Lufthansa'nın kampanyalarını 15 dakikada bir kontrol eder.
 Yeni bir kampanya çıkınca Telegram'dan mesaj atar. GitHub'ın ücretsiz sunucularında çalışır,
 bilgisayarın açık olması gerekmez.
 
@@ -12,7 +12,8 @@ bilgisayarın açık olması gerekmez.
 | airBaltic | Kampanya bannerları, "Sale ends in" indirim sayacı, tanıtım kutuları |
 | Finnair | "Today's offers" / "In the spotlight" kutuları, Special offers sayfası, indirim kodu sayfası |
 | Pegasus | Kampanyalı uçak biletleri sayfası (iş birliği kampanyaları hariç) |
-| SAS + hepsi | Gmail'e gelen bülten mailleri (SAS sitesi otomatik erişimi engellediği için SAS'ı bu yakalar) |
+| Lufthansa | Ana sayfadaki vitrin ve "Current topics and news" kutuları (kampanya kelimesi geçenler) |
+| SAS, THY + hepsi | Gmail'e gelen bülten mailleri (SAS ve THY siteleri otomatik erişimi engellediği için onları bu yakalar) |
 | Hepsi | fly4free fırsat sitesinde bu havayollarının adı geçen ilanlar |
 
 İlk çalıştığında o an görünen kampanyaları kaydeder ve tek bir "devrede" mesajı atar.
@@ -58,8 +59,9 @@ işaretleyip çalıştırın. Telegram'a test mesajı gelmeli. Sonra kutuyu işa
 
 ### 5. Bültenlere abone olun
 
-Bülten takibinin işe yaraması için 5 havayolunun e-bültenine Gmail adresinizle abone olun:
-Finnair, SAS, Ryanair, airBaltic ve Pegasus sitelerinin alt kısmında e-posta kayıt kutusu var.
+Bülten takibinin işe yaraması için havayollarının e-bültenine Gmail adresinizle abone olun:
+Finnair, SAS, Ryanair, airBaltic ve Pegasus sitelerinde e-posta kayıt kutusu var. THY (Miles&Smiles) ve
+Lufthansa (Miles & More) için hesabınızdaki iletişim tercihlerinde e-posta kampanya izninin açık olması gerekir.
 Kampanyalar çoğu zaman önce bülten abonelerine gidiyor.
 
 ## Durdurmak / ayarlamak

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Kampanya Avcısı
 
-Finnair, SAS, Ryanair, airBaltic ve Pegasus'un kampanyalarını izler; yeni bir kampanya
+Finnair, SAS, Ryanair, airBaltic, Pegasus, THY ve Lufthansa'nın kampanyalarını izler; yeni bir kampanya
 görünce Telegram'dan haber verir. GitHub Actions'ta 15 dakikada bir çalışır ve daha önce
 gördüklerini state.json dosyasında hatırlar.
 
@@ -43,6 +43,10 @@ PEGASUS_PAGE = "https://www.flypgs.com/kampanyali-ucak-biletleri"
 # Bilet indirimi olmayan BolBol ortaklık kampanyaları atlanır
 PEGASUS_SKIP = re.compile(r"iş birliği|partnership|bolbol oyna", re.I)
 
+# Lufthansa'nın Estonya ana sayfası (vitrin ve "Current topics and news" kutuları)
+LUFTHANSA_HOME = "https://www.lufthansa.com/ee/en/homepage"
+# THY'nin sitesi otomatik erişime yanıt vermediği için THY sadece bültenlerden ve fırsat sitelerinden izlenir
+
 # Fırsat sitelerinin RSS akışları: başlığında takip edilen havayollarından biri geçen ilanlar bildirilir
 DEAL_FEEDS = {"fly4free": "https://www.fly4free.com/feed/"}
 
@@ -56,16 +60,20 @@ MAIL_SENDERS = {
     "ryanair": "Ryanair",
     "airbaltic": "airBaltic",
     "flypgs": "Pegasus",
+    "turkishairlines": "THY",
+    "lufthansa": "Lufthansa",
+    "milesandmore": "Lufthansa",
 }
 # Konusu bunlardan birini içeren mailler (rezervasyon, check-in, hesap işlemleri vb.) kampanya sayılmaz
 MAIL_SKIP = re.compile(
     r"booking|reservation|confirm|check-?in|boarding|receipt|invoice|itinerary|password|verif|"
     r"account|registration|security|log ?in|sign ?in|hesabınız|bilet bilgi|elektronik bilet|"
+    r"balance|bakiye|hesap özet|[iİ]şlem bilgi|bilet detay|travel id|ticari elektronik ileti|"
     r"e-?ticket|refund|rezervasyon|onay|fatura|biniş|şifre|iade|varaus|kuitti|vahvist|lähtöselvitys",
     re.I,
 )
 
-# airBaltic'in sayfadaki tanıtım kutularından sadece bu kelimeleri içerenler kampanya sayılır
+# airBaltic, Finnair ve Lufthansa'nın tanıtım kutularından sadece bu kelimeleri içerenler kampanya sayılır
 CAMPAIGN_WORDS = re.compile(
     r"sale|discount|offer|deal|promo|code|bonus|double|\bwin\b|black friday|cyber|limited|cheap|price|€|\d\s?%|from \d",
     re.I,
@@ -121,12 +129,13 @@ def fetch_json(url):
 
 
 def airline_in(text):
-    match = re.search(r"\b(finnair|ryanair|airbaltic|pegasus)\b", text or "", re.I)
+    names = {"finnair": "Finnair", "ryanair": "Ryanair", "airbaltic": "airBaltic", "pegasus": "Pegasus",
+             "turkish airlines": "THY", "lufthansa": "Lufthansa"}
+    match = re.search(r"\b(finnair|ryanair|airbaltic|pegasus|turkish airlines|lufthansa)\b", text or "", re.I)
     if match:
-        return {"finnair": "Finnair", "ryanair": "Ryanair", "airbaltic": "airBaltic", "pegasus": "Pegasus"}[match.group(1).lower()]
-    if re.search(r"\bSAS\b", text or ""):
-        return "SAS"
-    return None
+        return names[match.group(1).lower()]
+    match = re.search(r"\b(SAS|THY)\b", text or "")  # kısaltmalar sadece büyük harfle yazılmışsa sayılır
+    return match.group(1) if match else None
 
 
 # ---------------------------------------------------------------------------
@@ -371,6 +380,35 @@ def pegasus():
     return list(items.values())
 
 
+def lufthansa():
+    page = fetch(LUFTHANSA_HOME)
+    items, blocks = {}, 0
+    # Büyük vitrin ("Our highlight"): ayarları data-dcep özniteliğinde JSON olarak duruyor
+    for raw in re.findall(r'class="dcep-main-stage-teaser"\s+data-dcep="([^"]*)"', page):
+        blocks += 1
+        teaser = json.loads(html.unescape(raw)).get("promotionTeaser") or {}
+        title, text = teaser.get("title") or "", teaser.get("displayText") or ""
+        campaign = teaser.get("campaignConfig") or teaser.get("isLinkCampaignEnabled")
+        if title and (campaign or CAMPAIGN_WORDS.search(f"{title} {text}")):
+            url = (teaser.get("linkModeConfig") or {}).get("url") or ""
+            link = url if url.startswith("http") else LUFTHANSA_HOME  # /content/... iç adresleri sitede açılmıyor
+            key = f"lufthansa:stage:{teaser.get('teaserId') or sha(title)}"
+            items[key] = Item(key, "Lufthansa", clean(title, 150), clean(text), link)
+    # "Current topics and news" kutuları
+    for attrs, track, body in re.findall(r'<a\b([^>]*data-identifier-track="compact-teaser_click_([^"]+)"[^>]*)>(.*?)</a>', page, re.S):
+        blocks += 1
+        title = clean((re.search(r'class="teaser-headline"[^>]*>(.*?)</h\d>', body, re.S) or [None, ""])[1], 150)
+        text = clean((re.search(r'class="teaser-description"[^>]*>(.*?)</div>', body, re.S) or [None, ""])[1])
+        if title and CAMPAIGN_WORDS.search(f"{title} {text}"):
+            href = re.search(r'href="([^"]*)"', attrs)
+            href = html.unescape(href.group(1)) if href else ""
+            key = "lufthansa:teaser:" + re.sub(r"^.*?pos\d+-", "", track)  # sıra numarası değişse de aynı kalsın
+            items.setdefault(key, Item(key, "Lufthansa", title, text, urllib.parse.urljoin(LUFTHANSA_HOME, href)))
+    if not blocks:
+        raise RuntimeError("kampanya alanı bulunamadı (site yapısı değişmiş olabilir)")
+    return list(items.values())
+
+
 def decode_mime(value):
     return str(email.header.make_header(email.header.decode_header(value or "")))
 
@@ -439,6 +477,7 @@ SOURCES = [
     ("airBaltic", airbaltic),
     ("Finnair", finnair),
     ("Pegasus", pegasus),
+    ("Lufthansa", lufthansa),
     ("Gmail", gmail),
     ("Fırsat siteleri", deal_feeds),
 ]
@@ -502,8 +541,11 @@ def send(text, photo=""):
 # ---------------------------------------------------------------------------
 
 
-def welcome_message(intro):
-    lines = ["✅ <b>Kampanya Avcısı devrede!</b>", "Yeni bir kampanya çıktığında buraya yazacağım.", ""]
+def welcome_message(intro, first_install):
+    if first_install:
+        lines = ["✅ <b>Kampanya Avcısı devrede!</b>", "Yeni bir kampanya çıktığında buraya yazacağım.", ""]
+    else:
+        lines = ["➕ <b>Yeni kaynak eklendi.</b>", "Bundan sonra bunların yeni kampanyalarını da yazacağım.", ""]
     for name, items in intro:
         if name == "Gmail":
             lines.append(f"📧 Gmail bağlı: son 3 günde {len(items)} havayolu bülteni var.")
@@ -528,6 +570,7 @@ def weekly_message(state, statuses):
 def run(state):
     now = now_utc()
     today = now.date().isoformat()
+    first_install = not state.get("seen")
     seen = state.setdefault("seen", {})
     fails = state.setdefault("fail", {})
     alerts, news, intro, statuses = [], [], [], []
@@ -574,7 +617,7 @@ def run(state):
     news.sort(key=lambda it: ["site", "mail", "feed"].index(it.kind))
     outbox = [(text, "") for text in alerts]
     if intro:
-        outbox.append((welcome_message(intro), ""))
+        outbox.append((welcome_message(intro, first_install), ""))
     outbox += [(format_item(it), it.image) for it in news]
     if len(outbox) > MAX_MESSAGES:
         extra = len(outbox) - (MAX_MESSAGES - 1)

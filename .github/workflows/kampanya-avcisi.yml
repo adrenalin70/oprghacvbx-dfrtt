@@ -2,7 +2,8 @@ name: Kampanya Avcısı
 
 on:
   schedule:
-    - cron: "*/15 * * * *" # 15 dakikada bir (GitHub yoğunken birkaç dakika gecikebilir)
+    # 15 dakikada bir. Saat başları GitHub'da en yoğun anlar olduğu için 7, 22, 37 ve 52. dakikalar seçildi.
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
     inputs:
       test:
