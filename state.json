@@ -1,7 +1,5 @@
 {
- "fail": {
-  "Lufthansa": 1
- },
+ "fail": {},
  "last_heartbeat": "2026-10-21",
  "seen": {
   "Finnair": {
