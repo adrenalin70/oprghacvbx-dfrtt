@@ -11,7 +11,9 @@
    "feed:513faf66dcdd": "2026-10-21",
    "feed:c7a2067b5994": "2026-10-21"
   },
-  "Gmail": {},
+  "Gmail": {
+   "mail:34b711d37a4e": "2026-10-21"
+  },
   "Pegasus": {
    "pegasus:0a1e74b2-8f17-4475-8bb7-fa2546197245": "2026-10-21",
    "pegasus:126e148e-56d4-c2c5-fbe2-08dc0b954b80": "2026-10-21",
@@ -39,5 +41,8 @@
    "airbaltic:block:cd787db36ded": "2026-10-21",
    "airbaltic:block:e3e31ff6500f": "2026-10-21"
   }
+ },
+ "sent": {
+  "2026-10-21": 1
  }
 }
