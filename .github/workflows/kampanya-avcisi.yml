@@ -33,7 +33,9 @@ jobs:
         run: python3 watcher.py ${{ inputs.test && '--test' || '' }}
 
       - name: Hafızayı kaydet
+        if: ${{ !inputs.test }}
         run: |
+          [ -f state.json ] || exit 0
           git add state.json
           if git diff --cached --quiet; then exit 0; fi
           git config user.name "kampanya-avcisi"
