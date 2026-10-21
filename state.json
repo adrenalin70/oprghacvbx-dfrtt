@@ -1,6 +1,14 @@
 {
  "fail": {},
  "last_heartbeat": "2026-10-21",
+ "ok": {
+  "Finnair": "2026-10-21",
+  "Fırsat siteleri": "2026-10-21",
+  "Gmail": "2026-10-21",
+  "Pegasus": "2026-10-21",
+  "Ryanair": "2026-10-21",
+  "airBaltic": "2026-10-21"
+ },
  "seen": {
   "Finnair": {
    "finnair:teaser:4355502": "2026-10-21",
