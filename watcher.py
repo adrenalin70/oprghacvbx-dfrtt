@@ -43,9 +43,8 @@ PEGASUS_PAGE = "https://www.flypgs.com/kampanyali-ucak-biletleri"
 # Bilet indirimi olmayan BolBol ortaklık kampanyaları atlanır
 PEGASUS_SKIP = re.compile(r"iş birliği|partnership|bolbol oyna", re.I)
 
-# Lufthansa'nın Estonya ana sayfası (vitrin ve "Current topics and news" kutuları)
-LUFTHANSA_HOME = "https://www.lufthansa.com/ee/en/homepage"
-# THY'nin sitesi otomatik erişime yanıt vermediği için THY sadece bültenlerden ve fırsat sitelerinden izlenir
+# THY (yanıt vermiyor) ve Lufthansa (GitHub sunucularına 403 veriyor) siteleri otomatik erişime kapalı;
+# bu iki havayolu sadece bültenlerden ve fırsat sitelerinden izlenir
 
 # Fırsat sitelerinin RSS akışları: başlığında takip edilen havayollarından biri geçen ilanlar bildirilir
 DEAL_FEEDS = {"fly4free": "https://www.fly4free.com/feed/"}
@@ -73,7 +72,7 @@ MAIL_SKIP = re.compile(
     re.I,
 )
 
-# airBaltic, Finnair ve Lufthansa'nın tanıtım kutularından sadece bu kelimeleri içerenler kampanya sayılır
+# airBaltic ve Finnair'in tanıtım kutularından sadece bu kelimeleri içerenler kampanya sayılır
 CAMPAIGN_WORDS = re.compile(
     r"sale|discount|offer|deal|promo|code|bonus|double|\bwin\b|black friday|cyber|limited|cheap|price|€|\d\s?%|from \d",
     re.I,
@@ -380,35 +379,6 @@ def pegasus():
     return list(items.values())
 
 
-def lufthansa():
-    page = fetch(LUFTHANSA_HOME)
-    items, blocks = {}, 0
-    # Büyük vitrin ("Our highlight"): ayarları data-dcep özniteliğinde JSON olarak duruyor
-    for raw in re.findall(r'class="dcep-main-stage-teaser"\s+data-dcep="([^"]*)"', page):
-        blocks += 1
-        teaser = json.loads(html.unescape(raw)).get("promotionTeaser") or {}
-        title, text = teaser.get("title") or "", teaser.get("displayText") or ""
-        campaign = teaser.get("campaignConfig") or teaser.get("isLinkCampaignEnabled")
-        if title and (campaign or CAMPAIGN_WORDS.search(f"{title} {text}")):
-            url = (teaser.get("linkModeConfig") or {}).get("url") or ""
-            link = url if url.startswith("http") else LUFTHANSA_HOME  # /content/... iç adresleri sitede açılmıyor
-            key = f"lufthansa:stage:{teaser.get('teaserId') or sha(title)}"
-            items[key] = Item(key, "Lufthansa", clean(title, 150), clean(text), link)
-    # "Current topics and news" kutuları
-    for attrs, track, body in re.findall(r'<a\b([^>]*data-identifier-track="compact-teaser_click_([^"]+)"[^>]*)>(.*?)</a>', page, re.S):
-        blocks += 1
-        title = clean((re.search(r'class="teaser-headline"[^>]*>(.*?)</h\d>', body, re.S) or [None, ""])[1], 150)
-        text = clean((re.search(r'class="teaser-description"[^>]*>(.*?)</div>', body, re.S) or [None, ""])[1])
-        if title and CAMPAIGN_WORDS.search(f"{title} {text}"):
-            href = re.search(r'href="([^"]*)"', attrs)
-            href = html.unescape(href.group(1)) if href else ""
-            key = "lufthansa:teaser:" + re.sub(r"^.*?pos\d+-", "", track)  # sıra numarası değişse de aynı kalsın
-            items.setdefault(key, Item(key, "Lufthansa", title, text, urllib.parse.urljoin(LUFTHANSA_HOME, href)))
-    if not blocks:
-        raise RuntimeError("kampanya alanı bulunamadı (site yapısı değişmiş olabilir)")
-    return list(items.values())
-
-
 def decode_mime(value):
     return str(email.header.make_header(email.header.decode_header(value or "")))
 
@@ -477,7 +447,6 @@ SOURCES = [
     ("airBaltic", airbaltic),
     ("Finnair", finnair),
     ("Pegasus", pegasus),
-    ("Lufthansa", lufthansa),
     ("Gmail", gmail),
     ("Fırsat siteleri", deal_feeds),
 ]
@@ -573,6 +542,8 @@ def run(state):
     first_install = not state.get("seen")
     seen = state.setdefault("seen", {})
     fails = state.setdefault("fail", {})
+    for name in [n for n in fails if n not in dict(SOURCES)]:  # kaldırılmış kaynakların sayaçları
+        del fails[name]
     alerts, news, intro, statuses = [], [], [], []
 
     for name, source in SOURCES:

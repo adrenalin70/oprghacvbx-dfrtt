@@ -12,8 +12,7 @@ bilgisayarın açık olması gerekmez.
 | airBaltic | Kampanya bannerları, "Sale ends in" indirim sayacı, tanıtım kutuları |
 | Finnair | "Today's offers" / "In the spotlight" kutuları, Special offers sayfası, indirim kodu sayfası |
 | Pegasus | Kampanyalı uçak biletleri sayfası (iş birliği kampanyaları hariç) |
-| Lufthansa | Ana sayfadaki vitrin ve "Current topics and news" kutuları (kampanya kelimesi geçenler) |
-| SAS, THY + hepsi | Gmail'e gelen bülten mailleri (SAS ve THY siteleri otomatik erişimi engellediği için onları bu yakalar) |
+| SAS, THY, Lufthansa + hepsi | Gmail'e gelen bülten mailleri (bu üç havayolunun siteleri otomatik erişimi engellediği için onları bu yakalar) |
 | Hepsi | fly4free fırsat sitesinde bu havayollarının adı geçen ilanlar |
 
 İlk çalıştığında o an görünen kampanyaları kaydeder ve tek bir "devrede" mesajı atar.
