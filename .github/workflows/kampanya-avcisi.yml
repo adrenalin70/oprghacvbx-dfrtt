@@ -21,7 +21,7 @@ concurrency:
 jobs:
   kontrol:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v5
 
@@ -31,7 +31,7 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-        run: python3 watcher.py ${{ inputs.test && '--test' || '' }}
+        run: python3 -u watcher.py ${{ inputs.test && '--test' || '' }} # -u: kayıtlar anında yazılsın
 
       - name: Hafızayı kaydet
         if: ${{ !inputs.test }}

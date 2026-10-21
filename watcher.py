@@ -83,9 +83,12 @@ FAIL_ALERT_AFTER = 8  # bir kaynak art arda bu kadar okunamazsa (15 dk x 8 = 2 s
 FORGET_AFTER_DAYS = 180  # bu kadar gündür görünmeyen kampanyalar unutulur
 REAPPEAR_AFTER_DAYS = 7  # bu kadar gün görünmeyip aynı adla geri gelen kampanya yeniden bildirilir
 MAX_MESSAGES = 15  # tek çalışmada gönderilecek en fazla mesaj
+REQUEST_TIMEOUT = 20  # tek bir istekte en fazla kaç saniye beklenir
+SOURCE_TIME_LIMIT = 60  # bir kaynak toplamda en fazla kaç saniye sürebilir; takılan site diğerlerini bekletmesin
 
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36"
 DRY_RUN = False
+SOURCE_DEADLINE = None  # o an okunan kaynağın bitmesi gereken an (time.monotonic)
 
 
 @dataclass
@@ -119,8 +122,10 @@ def clean(text, limit=300):
 
 
 def fetch(url, accept="text/html,application/json;q=0.9,*/*;q=0.8", raw=False):
+    if SOURCE_DEADLINE and time.monotonic() > SOURCE_DEADLINE:
+        raise TimeoutError(f"kaynak {SOURCE_TIME_LIMIT} saniyede tamamlanamadı (site yavaş ya da cevap vermiyor)")
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": accept, "Accept-Language": "en-US,en;q=0.9"})
-    with urllib.request.urlopen(req, timeout=30) as resp:
+    with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT) as resp:
         body = resp.read()
     return body if raw else body.decode("utf-8", "replace")
 
@@ -396,7 +401,7 @@ def gmail():
     if not (user and password):
         return None  # Gmail ayarlanmamış: kaynak kapalı
     query = "from:(" + " OR ".join(MAIL_SENDERS) + ") newer_than:3d"
-    imap = imaplib.IMAP4_SSL("imap.gmail.com")
+    imap = imaplib.IMAP4_SSL("imap.gmail.com", timeout=REQUEST_TIMEOUT)
     try:
         imap.login(user, password.replace(" ", ""))
         imap.select("INBOX", readonly=True)  # salt okunur: mailler okunmuş olarak işaretlenmez
@@ -544,6 +549,7 @@ def weekly_message(state, statuses):
 
 
 def run(state):
+    global SOURCE_DEADLINE
     now = now_utc()
     today = now.date().isoformat()
     first_install = not state.get("seen")
@@ -555,6 +561,8 @@ def run(state):
     alerts, news, intro, statuses = [], [], [], []
 
     for name, source in SOURCES:
+        started = time.monotonic()
+        SOURCE_DEADLINE = started + SOURCE_TIME_LIMIT
         try:
             items = source()
         except Exception as exc:
@@ -566,9 +574,11 @@ def run(state):
                         f"⚠️ <b>{esc(name)}</b> son {FAIL_ALERT_AFTER} denemede okunamadı.\n"
                         f"Hata: {esc(str(exc)[:200])}\nSite yapısı değişmiş ya da erişimi engellemiş olabilir."
                     )
-            print(f"[{name}] okunamadı: {exc}")
+            print(f"[{name}] okunamadı ({time.monotonic() - started:.0f} sn): {exc}")
             statuses.append((name, "⚠️"))
             continue
+        finally:
+            SOURCE_DEADLINE = None
         if items is None:
             print(f"[{name}] kapalı")
             statuses.append((name + " (kapalı)", "⚪"))
@@ -586,7 +596,8 @@ def run(state):
         new = {it.id: it for it in items if it.id not in known or known[it.id] < gone_before}
         for it in items:
             known[it.id] = today
-        print(f"[{name}] {len(items)} kampanya, {len(new)} yeni" + (" (ilk çalışma, kaydedildi)" if first_time else ""))
+        print(f"[{name}] {len(items)} kampanya, {len(new)} yeni ({time.monotonic() - started:.0f} sn)"
+              + (" (ilk çalışma, kaydedildi)" if first_time else ""))
         if first_time:
             intro.append((name, items))
         else:
