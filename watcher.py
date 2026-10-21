@@ -12,6 +12,7 @@ Bağlantı testi:                          python watcher.py --test
 import argparse
 import email
 import email.header
+import email.utils
 import hashlib
 import html
 import imaplib
@@ -371,7 +372,13 @@ def pegasus():
 
 
 def decode_mime(value):
-    return clean(str(email.header.make_header(email.header.decode_header(value or ""))), 200)
+    return str(email.header.make_header(email.header.decode_header(value or "")))
+
+
+def mail_sender(value):
+    # Adres <...> içinde durduğu için clean() kullanılmaz; o, < > arasını HTML etiketi sanıp siler
+    name, address = email.utils.parseaddr(decode_mime(value))
+    return f"{name} {address}".lower()
 
 
 def gmail():
@@ -390,7 +397,7 @@ def gmail():
             _, parts = imap.uid("FETCH", uid, "(BODY.PEEK[HEADER.FIELDS (SUBJECT FROM MESSAGE-ID)])")
             raw = next((part[1] for part in parts if isinstance(part, tuple)), b"")
             headers = email.message_from_bytes(raw)
-            subject, sender = decode_mime(headers.get("Subject")), decode_mime(headers.get("From")).lower()
+            subject, sender = clean(decode_mime(headers.get("Subject")), 200), mail_sender(headers.get("From"))
             airline = next((name for key, name in MAIL_SENDERS.items() if key in sender), None)
             if not airline:
                 no_airline += 1
