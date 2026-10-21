@@ -1,0 +1,42 @@
+name: Kampanya Avcısı
+
+on:
+  schedule:
+    - cron: "*/15 * * * *" # 15 dakikada bir (GitHub yoğunken birkaç dakika gecikebilir)
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Sadece Telegram/Gmail bağlantı testi yap"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # state.json dosyasını kaydedebilmek için
+
+concurrency:
+  group: kampanya-avcisi
+  cancel-in-progress: false
+
+jobs:
+  kontrol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Kampanyaları kontrol et
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: python3 watcher.py ${{ inputs.test && '--test' || '' }}
+
+      - name: Hafızayı kaydet
+        run: |
+          git add state.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "kampanya-avcisi"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -q -m "Kampanya hafızası güncellendi"
+          git pull -q --rebase origin "$GITHUB_REF_NAME" && git push -q origin "HEAD:$GITHUB_REF_NAME"
