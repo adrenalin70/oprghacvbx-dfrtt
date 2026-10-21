@@ -20,12 +20,13 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 # ---------------------------------------------------------------------------
 # Ayarlar
@@ -80,6 +81,7 @@ CAMPAIGN_WORDS = re.compile(
 
 FAIL_ALERT_AFTER = 8  # bir kaynak art arda bu kadar okunamazsa (15 dk x 8 = 2 saat) uyarı gelir
 FORGET_AFTER_DAYS = 180  # bu kadar gündür görünmeyen kampanyalar unutulur
+REAPPEAR_AFTER_DAYS = 7  # bu kadar gün görünmeyip aynı adla geri gelen kampanya yeniden bildirilir
 MAX_MESSAGES = 15  # tek çalışmada gönderilecek en fazla mesaj
 
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36"
@@ -479,15 +481,20 @@ def format_item(item):
 def telegram_call(method, fields):
     token = os.environ["TELEGRAM_BOT_TOKEN"]
     req = urllib.request.Request(f"https://api.telegram.org/bot{token}/{method}", data=urllib.parse.urlencode(fields).encode())
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return json.loads(resp.read())
-    except urllib.error.HTTPError as exc:  # hata metninde token geçmesin diye sadece Telegram'ın açıklaması alınır
+    for attempt in range(3):
         try:
-            reason = json.loads(exc.read()).get("description")
-        except Exception:
-            reason = exc.reason
-        raise RuntimeError(f"Telegram hatası ({exc.code}): {reason}") from None
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return json.loads(resp.read())
+        except urllib.error.HTTPError as exc:  # hata metninde token geçmesin diye sadece Telegram'ın açıklaması alınır
+            try:
+                body = json.loads(exc.read())
+            except Exception:
+                body = {}
+            wait = (body.get("parameters") or {}).get("retry_after")
+            if exc.code == 429 and wait and attempt < 2:  # "çok hızlı" cevabında Telegram'ın söylediği kadar beklenir
+                time.sleep(min(int(wait), 60) + 1)
+                continue
+            raise RuntimeError(f"Telegram hatası ({exc.code}): {body.get('description') or exc.reason}") from None
 
 
 def send(text, photo=""):
@@ -542,6 +549,7 @@ def run(state):
     first_install = not state.get("seen")
     seen = state.setdefault("seen", {})
     fails = state.setdefault("fail", {})
+    last_ok = state.setdefault("ok", {})  # her kaynağın en son başarıyla okunduğu gün
     for name in [n for n in fails if n not in dict(SOURCES)]:  # kaldırılmış kaynakların sayaçları
         del fails[name]
     alerts, news, intro, statuses = [], [], [], []
@@ -570,7 +578,12 @@ def run(state):
             alerts.append(f"✅ <b>{esc(name)}</b> yeniden okunabiliyor.")
         first_time = name not in seen
         known = seen.setdefault(name, {})
-        new = {it.id: it for it in items if it.id not in known}
+        # Kaynak okunurken bir haftadan uzun süre görünmeyip geri gelen kampanya da yeni sayılır.
+        # Kaynağın kendisi uzun süre okunamadıysa bu kural işlemez, yoksa her şey yeniden bildirilirdi.
+        previous_ok = last_ok.get(name)
+        gone_before = (date.fromisoformat(previous_ok) - timedelta(days=REAPPEAR_AFTER_DAYS)).isoformat() if previous_ok else ""
+        last_ok[name] = today
+        new = {it.id: it for it in items if it.id not in known or known[it.id] < gone_before}
         for it in items:
             known[it.id] = today
         print(f"[{name}] {len(items)} kampanya, {len(new)} yeni" + (" (ilk çalışma, kaydedildi)" if first_time else ""))
@@ -640,7 +653,15 @@ def main():
     except FileNotFoundError:
         state = {}
     for text, photo in run(state):
-        send(text, photo)
+        try:
+            send(text, photo)
+        except RuntimeError as exc:
+            if "(400)" not in str(exc):
+                raise  # geçici hata: hafıza kaydedilmez, sonraki çalışmada yeniden denenir
+            # Telegram mesajı kalıcı olarak reddettiyse atlanır; yoksa diğer bildirimler de her seferinde tekrarlanırdı
+            print(f"Mesaj Telegram'a kabul edilmedi, atlandı: {exc}")
+        if not DRY_RUN:
+            time.sleep(1)  # Telegram aynı sohbete saniyede en fazla ~1 mesaj ister
     with open(args.state, "w", encoding="utf-8") as fh:
         json.dump(state, fh, ensure_ascii=False, indent=1, sort_keys=True)
         fh.write("\n")
