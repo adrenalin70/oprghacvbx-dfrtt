@@ -49,6 +49,7 @@
    "ryanair:/lp/discounts-and-promos/flash-sale:211026": "2026-10-23"
   },
   "airBaltic": {
+   "airbaltic:banner:df43742e-2b73-47f2-b14d-23a177f08201:2026-10-20 04:45": "2026-10-23",
    "airbaltic:block:0d2008592e5a": "2026-10-23",
    "airbaltic:block:6706fae12f86": "2026-10-23",
    "airbaltic:block:8377f4b3d047": "2026-10-23",
@@ -59,6 +60,7 @@
  },
  "sent": {
   "2026-10-21": 3,
-  "2026-10-22": 5
+  "2026-10-22": 5,
+  "2026-10-23": 1
  }
 }
