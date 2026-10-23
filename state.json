@@ -48,7 +48,14 @@
    "pegasus:dde17fb8-cc1f-4e8a-8e55-7cd6a82aaaaa": "2026-10-23"
   },
   "Ryanair": {
-   "ryanair:/lp/discounts-and-promos/flash-sale:211026": "2026-10-23"
+   "ryanair:/lp/discounts-and-promos/flash-sale:211026": "2026-10-23",
+   "ryanair:/lp/promotion/great-escapes:171026": "2026-10-23",
+   "ryanair:/lp/promotion/great-escapes:241026": "2026-10-23",
+   "ryanair:/lp/promotion/incredible-deals:121026": "2026-10-23",
+   "ryanair:/lp/promotion/incredible-offers:121026": "2026-10-23",
+   "ryanair:/lp/promotion/lets-fly:021026": "2026-10-23",
+   "ryanair:/lp/promotion/winter-getaways:121026": "2026-10-23",
+   "ryanair:/lp/promotion/your-offers:26171025": "2026-10-23"
   },
   "airBaltic": {
    "airbaltic:banner:df43742e-2b73-47f2-b14d-23a177f08201:2026-10-20 04:45": "2026-10-23",
@@ -63,6 +70,6 @@
  "sent": {
   "2026-10-21": 3,
   "2026-10-22": 5,
-  "2026-10-23": 3
+  "2026-10-23": 10
  }
 }
