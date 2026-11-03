@@ -45,6 +45,8 @@
    "mail:34b711d37a4e": "2026-10-24",
    "mail:3da89e087248": "2026-10-24",
    "mail:4c6fc081ad5c": "2026-10-29",
+   "mail:74ebd000718e": "2026-11-03",
+   "mail:75616ca6a471": "2026-11-03",
    "mail:7949b0584125": "2026-10-29",
    "mail:a09c4715ac45": "2026-10-31",
    "mail:a4009b3a6a92": "2026-10-25",
@@ -90,7 +92,7 @@
    "ryanair:/lp/promotion/lets-fly:021126": "2026-11-03",
    "ryanair:/lp/promotion/winter-getaways:121026": "2026-10-29",
    "ryanair:/lp/promotion/your-offers:021126": "2026-11-03",
-   "ryanair:/lp/promotion/your-offers:26171025": "2026-10-29"
+   "ryanair:/lp/promotion/your-offers:26171025": "2026-11-03"
   },
   "airBaltic": {
    "airbaltic:banner:df43742e-2b73-47f2-b14d-23a177f08201:2026-10-20 04:45": "2026-10-26",
@@ -117,6 +119,6 @@
   "2026-10-31": 4,
   "2026-11-01": 2,
   "2026-11-02": 8,
-  "2026-11-03": 2
+  "2026-11-03": 4
  }
 }
