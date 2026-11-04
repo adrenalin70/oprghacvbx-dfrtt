@@ -1,5 +1,7 @@
 {
- "fail": {},
+ "fail": {
+  "Gmail": 1
+ },
  "last_heartbeat": "2026-11-02",
  "ok": {
   "Finnair": "2026-11-04",
