@@ -2,18 +2,18 @@
  "fail": {},
  "last_heartbeat": "2026-11-09",
  "ok": {
-  "Finnair": "2026-11-10",
-  "Fırsat siteleri": "2026-11-10",
-  "Gmail": "2026-11-10",
-  "Pegasus": "2026-11-10",
-  "Ryanair": "2026-11-10",
-  "airBaltic": "2026-11-10"
+  "Finnair": "2026-11-11",
+  "Fırsat siteleri": "2026-11-11",
+  "Gmail": "2026-11-11",
+  "Pegasus": "2026-11-11",
+  "Ryanair": "2026-11-11",
+  "airBaltic": "2026-11-11"
  },
  "seen": {
   "Finnair": {
    "finnair:teaser:4355502": "2026-11-03",
    "finnair:teaser:4484640": "2026-10-26",
-   "finnair:teaser:4497180": "2026-11-10"
+   "finnair:teaser:4497180": "2026-11-11"
   },
   "Fırsat siteleri": {
    "feed:015a98f8292d": "2026-10-28",
@@ -45,17 +45,17 @@
    "mail:067de159a15e": "2026-11-09",
    "mail:0a88aeb1b5ea": "2026-11-07",
    "mail:1016ac70e666": "2026-11-03",
-   "mail:164f4abb8613": "2026-11-10",
+   "mail:164f4abb8613": "2026-11-11",
    "mail:1df2e569c8a2": "2026-11-06",
    "mail:2fafe686cdc9": "2026-10-26",
-   "mail:31b9f24acb96": "2026-11-10",
+   "mail:31b9f24acb96": "2026-11-11",
    "mail:346c78595d6f": "2026-10-31",
    "mail:34b711d37a4e": "2026-10-24",
    "mail:3da89e087248": "2026-10-24",
-   "mail:45b3ffbd8da5": "2026-11-10",
+   "mail:45b3ffbd8da5": "2026-11-11",
    "mail:4847017e8906": "2026-11-08",
    "mail:4c6fc081ad5c": "2026-10-29",
-   "mail:4ef9af72f34a": "2026-11-10",
+   "mail:4ef9af72f34a": "2026-11-11",
    "mail:56c1ad1e938a": "2026-11-05",
    "mail:74ebd000718e": "2026-11-06",
    "mail:75616ca6a471": "2026-11-06",
@@ -68,31 +68,31 @@
    "mail:b697c0816bde": "2026-10-30",
    "mail:ba6fcd8d159a": "2026-10-24",
    "mail:c67552c4f1e6": "2026-10-25",
-   "mail:cb6d78099060": "2026-11-10",
-   "mail:d119f499ccdf": "2026-11-10",
+   "mail:cb6d78099060": "2026-11-11",
+   "mail:d119f499ccdf": "2026-11-11",
    "mail:d35d4ec95f09": "2026-10-30",
    "mail:d8726238dae9": "2026-11-02",
    "mail:d96646f46412": "2026-11-07"
   },
   "Pegasus": {
-   "pegasus:0a1e74b2-8f17-4475-8bb7-fa2546197245": "2026-11-10",
-   "pegasus:126e148e-56d4-c2c5-fbe2-08dc0b954b80": "2026-11-10",
-   "pegasus:1c58b290-6e70-482c-9b0f-3bc49834bcc6": "2026-11-10",
+   "pegasus:0a1e74b2-8f17-4475-8bb7-fa2546197245": "2026-11-11",
+   "pegasus:126e148e-56d4-c2c5-fbe2-08dc0b954b80": "2026-11-11",
+   "pegasus:1c58b290-6e70-482c-9b0f-3bc49834bcc6": "2026-11-11",
    "pegasus:210a14aa-8596-45dd-a40a-85e2ce10052f": "2026-11-04",
-   "pegasus:2738cbb4-7a71-4798-9289-0fec64b48612": "2026-11-10",
-   "pegasus:3d2c2149-6dbf-4d34-a293-9e47738394a0": "2026-11-10",
+   "pegasus:2738cbb4-7a71-4798-9289-0fec64b48612": "2026-11-11",
+   "pegasus:3d2c2149-6dbf-4d34-a293-9e47738394a0": "2026-11-11",
    "pegasus:541831f1-2cd3-4058-84a3-cbbdfc6d2481": "2026-11-04",
-   "pegasus:65037e1a-bb92-4282-a65a-5bc49aa6fc7a": "2026-11-10",
-   "pegasus:757f0515-10d5-44dc-9ea6-37465898ca92": "2026-11-10",
+   "pegasus:65037e1a-bb92-4282-a65a-5bc49aa6fc7a": "2026-11-11",
+   "pegasus:757f0515-10d5-44dc-9ea6-37465898ca92": "2026-11-11",
    "pegasus:83e84387-1605-4477-983e-9174e94ea943": "2026-10-26",
    "pegasus:8f13550f-031a-4e25-9ca1-beff6bfb53c9": "2026-11-04",
-   "pegasus:966a3b9c-94be-48ed-819a-6f8e49d3543a": "2026-11-10",
+   "pegasus:966a3b9c-94be-48ed-819a-6f8e49d3543a": "2026-11-11",
    "pegasus:a5ff4ac6-33a4-41e9-a087-bfc02731a286": "2026-10-26",
-   "pegasus:aa0a0a9f-b214-436f-b98b-bee63db93bb2": "2026-11-10",
-   "pegasus:afebf110-3f2c-437f-a2a1-1384781a4663": "2026-11-10",
-   "pegasus:beaedbce-9560-49e8-8037-dd5112e4c5dd": "2026-11-10",
-   "pegasus:d55b6310-7bb1-44dd-93ad-b2065ebe5a71": "2026-11-10",
-   "pegasus:dde17fb8-cc1f-4e8a-8e55-7cd6a82aaaaa": "2026-11-10",
+   "pegasus:aa0a0a9f-b214-436f-b98b-bee63db93bb2": "2026-11-11",
+   "pegasus:afebf110-3f2c-437f-a2a1-1384781a4663": "2026-11-11",
+   "pegasus:beaedbce-9560-49e8-8037-dd5112e4c5dd": "2026-11-11",
+   "pegasus:d55b6310-7bb1-44dd-93ad-b2065ebe5a71": "2026-11-11",
+   "pegasus:dde17fb8-cc1f-4e8a-8e55-7cd6a82aaaaa": "2026-11-11",
    "pegasus:f557a9be-a103-4b25-bd47-7b17243d2f14": "2026-11-04"
   },
   "Ryanair": {
@@ -101,8 +101,9 @@
    "ryanair:/lp/discounts-and-promos/flash-sale:301026": "2026-11-01",
    "ryanair:/lp/promotion/destinations:021126": "2026-11-10",
    "ryanair:/lp/promotion/discover-more:021126": "2026-11-10",
+   "ryanair:/lp/promotion/flash-sale:111126": "2026-11-11",
    "ryanair:/lp/promotion/flash-sale:271026": "2026-10-28",
-   "ryanair:/lp/promotion/great-escapes:021126": "2026-11-10",
+   "ryanair:/lp/promotion/great-escapes:021126": "2026-11-11",
    "ryanair:/lp/promotion/great-escapes:061126": "2026-11-08",
    "ryanair:/lp/promotion/great-escapes:171026": "2026-10-29",
    "ryanair:/lp/promotion/great-escapes:241026": "2026-10-25",
@@ -119,17 +120,15 @@
   "airBaltic": {
    "airbaltic:banner:df43742e-2b73-47f2-b14d-23a177f08201:2026-10-20 04:45": "2026-10-26",
    "airbaltic:banner:df43742e-2b73-47f2-b14d-23a177f08201:2026-11-03 03:45": "2026-11-05",
-   "airbaltic:block:0d2008592e5a": "2026-11-10",
-   "airbaltic:block:6706fae12f86": "2026-11-10",
-   "airbaltic:block:8377f4b3d047": "2026-11-10",
+   "airbaltic:block:0d2008592e5a": "2026-11-11",
+   "airbaltic:block:6706fae12f86": "2026-11-11",
+   "airbaltic:block:8377f4b3d047": "2026-11-11",
    "airbaltic:block:cd4bd50a1ee9": "2026-10-26",
-   "airbaltic:block:cd787db36ded": "2026-11-10",
-   "airbaltic:block:e3e31ff6500f": "2026-11-10"
+   "airbaltic:block:cd787db36ded": "2026-11-11",
+   "airbaltic:block:e3e31ff6500f": "2026-11-11"
   }
  },
  "sent": {
-  "2026-10-26": 7,
-  "2026-10-27": 4,
   "2026-10-28": 2,
   "2026-10-29": 2,
   "2026-10-30": 2,
@@ -141,6 +140,7 @@
   "2026-11-05": 3,
   "2026-11-06": 4,
   "2026-11-08": 1,
-  "2026-11-09": 5
+  "2026-11-09": 5,
+  "2026-11-11": 1
  }
 }
