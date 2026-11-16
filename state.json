@@ -61,6 +61,7 @@
    "mail:346c78595d6f": "2026-10-31",
    "mail:34b711d37a4e": "2026-10-24",
    "mail:3da89e087248": "2026-10-24",
+   "mail:459d3bc4f5df": "2026-11-16",
    "mail:45b3ffbd8da5": "2026-11-12",
    "mail:4847017e8906": "2026-11-08",
    "mail:4c6fc081ad5c": "2026-10-29",
@@ -127,6 +128,7 @@
    "ryanair:/lp/promotion/lets-fly:021026": "2026-10-29",
    "ryanair:/lp/promotion/lets-fly:021126": "2026-11-16",
    "ryanair:/lp/promotion/winter-getaways:121026": "2026-10-29",
+   "ryanair:/lp/promotion/your-next-trip:050926": "2026-11-16",
    "ryanair:/lp/promotion/your-offers:021126": "2026-11-03",
    "ryanair:/lp/promotion/your-offers:26171025": "2026-11-16"
   },
@@ -155,6 +157,6 @@
   "2026-11-13": 3,
   "2026-11-14": 1,
   "2026-11-15": 2,
-  "2026-11-16": 1
+  "2026-11-16": 3
  }
 }
