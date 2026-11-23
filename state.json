@@ -2,17 +2,17 @@
  "fail": {},
  "last_heartbeat": "2026-11-16",
  "ok": {
-  "Finnair": "2026-11-22",
-  "Fırsat siteleri": "2026-11-22",
-  "Gmail": "2026-11-22",
-  "Pegasus": "2026-11-22",
-  "Ryanair": "2026-11-22",
-  "airBaltic": "2026-11-22"
+  "Finnair": "2026-11-23",
+  "Fırsat siteleri": "2026-11-23",
+  "Gmail": "2026-11-23",
+  "Pegasus": "2026-11-23",
+  "Ryanair": "2026-11-23",
+  "airBaltic": "2026-11-23"
  },
  "seen": {
   "Finnair": {
    "finnair:teaser:4355502": "2026-11-03",
-   "finnair:teaser:4484640": "2026-11-22",
+   "finnair:teaser:4484640": "2026-11-23",
    "finnair:teaser:4497180": "2026-11-16",
    "finnair:teaser:4524578": "2026-11-19"
   },
@@ -21,7 +21,7 @@
    "feed:015a98f8292d": "2026-10-28",
    "feed:04a736628bca": "2026-11-05",
    "feed:04f8f53679ff": "2026-11-03",
-   "feed:082141185893": "2026-11-22",
+   "feed:082141185893": "2026-11-23",
    "feed:09fbf91cfbbf": "2026-10-29",
    "feed:14efa576a2dc": "2026-10-27",
    "feed:3dfc08c13249": "2026-10-22",
@@ -31,7 +31,7 @@
    "feed:513faf66dcdd": "2026-10-24",
    "feed:5277f518b847": "2026-11-07",
    "feed:56ea1d126e85": "2026-11-10",
-   "feed:7986ded6a264": "2026-11-22",
+   "feed:7986ded6a264": "2026-11-23",
    "feed:7ea8d0957fce": "2026-10-26",
    "feed:87c434628ba6": "2026-11-09",
    "feed:9bab07992fe9": "2026-11-05",
@@ -45,7 +45,7 @@
    "feed:c7a2067b5994": "2026-10-22",
    "feed:cbea83297804": "2026-11-05",
    "feed:d932c8ebe33b": "2026-11-17",
-   "feed:de53b1663fe8": "2026-11-22",
+   "feed:de53b1663fe8": "2026-11-23",
    "feed:e64c7567f4b1": "2026-11-15",
    "feed:e651fdc564d4": "2026-11-15",
    "feed:e6972732aa3a": "2026-10-29",
@@ -73,7 +73,7 @@
    "mail:4e824b28de7a": "2026-11-22",
    "mail:4ef9af72f34a": "2026-11-12",
    "mail:54c44ff0f3b5": "2026-11-22",
-   "mail:568264bd28f3": "2026-11-22",
+   "mail:568264bd28f3": "2026-11-23",
    "mail:56c1ad1e938a": "2026-11-05",
    "mail:58f6245b95fb": "2026-11-21",
    "mail:74ebd000718e": "2026-11-06",
@@ -100,26 +100,26 @@
    "mail:e129752b2112": "2026-11-20"
   },
   "Pegasus": {
-   "pegasus:0a1e74b2-8f17-4475-8bb7-fa2546197245": "2026-11-22",
-   "pegasus:126e148e-56d4-c2c5-fbe2-08dc0b954b80": "2026-11-22",
-   "pegasus:1c58b290-6e70-482c-9b0f-3bc49834bcc6": "2026-11-22",
+   "pegasus:0a1e74b2-8f17-4475-8bb7-fa2546197245": "2026-11-23",
+   "pegasus:126e148e-56d4-c2c5-fbe2-08dc0b954b80": "2026-11-23",
+   "pegasus:1c58b290-6e70-482c-9b0f-3bc49834bcc6": "2026-11-23",
    "pegasus:210a14aa-8596-45dd-a40a-85e2ce10052f": "2026-11-04",
-   "pegasus:2738cbb4-7a71-4798-9289-0fec64b48612": "2026-11-22",
-   "pegasus:3d2c2149-6dbf-4d34-a293-9e47738394a0": "2026-11-22",
+   "pegasus:2738cbb4-7a71-4798-9289-0fec64b48612": "2026-11-23",
+   "pegasus:3d2c2149-6dbf-4d34-a293-9e47738394a0": "2026-11-23",
    "pegasus:541831f1-2cd3-4058-84a3-cbbdfc6d2481": "2026-11-04",
-   "pegasus:65037e1a-bb92-4282-a65a-5bc49aa6fc7a": "2026-11-22",
-   "pegasus:757f0515-10d5-44dc-9ea6-37465898ca92": "2026-11-22",
+   "pegasus:65037e1a-bb92-4282-a65a-5bc49aa6fc7a": "2026-11-23",
+   "pegasus:757f0515-10d5-44dc-9ea6-37465898ca92": "2026-11-23",
    "pegasus:83e84387-1605-4477-983e-9174e94ea943": "2026-10-26",
    "pegasus:8f13550f-031a-4e25-9ca1-beff6bfb53c9": "2026-11-04",
-   "pegasus:966a3b9c-94be-48ed-819a-6f8e49d3543a": "2026-11-22",
+   "pegasus:966a3b9c-94be-48ed-819a-6f8e49d3543a": "2026-11-23",
    "pegasus:a5ff4ac6-33a4-41e9-a087-bfc02731a286": "2026-10-26",
    "pegasus:aa0a0a9f-b214-436f-b98b-bee63db93bb2": "2026-11-20",
-   "pegasus:afebf110-3f2c-437f-a2a1-1384781a4663": "2026-11-22",
-   "pegasus:ba02f602-1c94-4a25-be18-32d4c188106f": "2026-11-22",
-   "pegasus:beaedbce-9560-49e8-8037-dd5112e4c5dd": "2026-11-22",
-   "pegasus:d55b6310-7bb1-44dd-93ad-b2065ebe5a71": "2026-11-22",
-   "pegasus:dde17fb8-cc1f-4e8a-8e55-7cd6a82aaaaa": "2026-11-22",
-   "pegasus:f557a9be-a103-4b25-bd47-7b17243d2f14": "2026-11-22"
+   "pegasus:afebf110-3f2c-437f-a2a1-1384781a4663": "2026-11-23",
+   "pegasus:ba02f602-1c94-4a25-be18-32d4c188106f": "2026-11-23",
+   "pegasus:beaedbce-9560-49e8-8037-dd5112e4c5dd": "2026-11-23",
+   "pegasus:d55b6310-7bb1-44dd-93ad-b2065ebe5a71": "2026-11-23",
+   "pegasus:dde17fb8-cc1f-4e8a-8e55-7cd6a82aaaaa": "2026-11-23",
+   "pegasus:f557a9be-a103-4b25-bd47-7b17243d2f14": "2026-11-23"
   },
   "Ryanair": {
    "ryanair:/lp/discounts-and-promos/flash-sale:041126": "2026-11-05",
@@ -127,6 +127,7 @@
    "ryanair:/lp/discounts-and-promos/flash-sale:211026": "2026-10-23",
    "ryanair:/lp/discounts-and-promos/flash-sale:301026": "2026-11-01",
    "ryanair:/lp/discounts-and-promos/getaways:211126": "2026-11-22",
+   "ryanair:/lp/promotion/book-now:231126": "2026-11-23",
    "ryanair:/lp/promotion/destinations:021126": "2026-11-20",
    "ryanair:/lp/promotion/discover-more:021126": "2026-11-16",
    "ryanair:/lp/promotion/flash-sale:111126": "2026-11-12",
@@ -151,18 +152,17 @@
   "airBaltic": {
    "airbaltic:banner:df43742e-2b73-47f2-b14d-23a177f08201:2026-10-20 04:45": "2026-10-26",
    "airbaltic:banner:df43742e-2b73-47f2-b14d-23a177f08201:2026-11-03 03:45": "2026-11-05",
-   "airbaltic:banner:df43742e-2b73-47f2-b14d-23a177f08201:2026-11-17 03:45": "2026-11-22",
-   "airbaltic:block:0d2008592e5a": "2026-11-22",
-   "airbaltic:block:6706fae12f86": "2026-11-22",
-   "airbaltic:block:8377f4b3d047": "2026-11-22",
+   "airbaltic:banner:df43742e-2b73-47f2-b14d-23a177f08201:2026-11-17 03:45": "2026-11-23",
+   "airbaltic:block:0d2008592e5a": "2026-11-23",
+   "airbaltic:block:6706fae12f86": "2026-11-23",
+   "airbaltic:block:8377f4b3d047": "2026-11-23",
    "airbaltic:block:cd4bd50a1ee9": "2026-10-26",
-   "airbaltic:block:cd787db36ded": "2026-11-22",
-   "airbaltic:block:e3e31ff6500f": "2026-11-22",
+   "airbaltic:block:cd787db36ded": "2026-11-23",
+   "airbaltic:block:e3e31ff6500f": "2026-11-23",
    "airbaltic:sale:2026-11-15 23:59": "2026-11-15"
   }
  },
  "sent": {
-  "2026-11-08": 1,
   "2026-11-09": 5,
   "2026-11-11": 3,
   "2026-11-12": 5,
@@ -175,6 +175,7 @@
   "2026-11-19": 4,
   "2026-11-20": 7,
   "2026-11-21": 2,
-  "2026-11-22": 1
+  "2026-11-22": 1,
+  "2026-11-23": 1
  }
 }
